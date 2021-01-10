@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import by.zharikov.shared.data.entity.cocktail.Cocktail
 import by.zharikov.shared.domain.Cocktail.LoadCocktailListUseCase
-import by.zharikov.shared.domain.Cocktail.Params
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,7 +16,9 @@ class CocktailByFirstLetterViewModel(private val text: String) : ViewModel() {
         val loadCocktailListUseCase = LoadCocktailListUseCase()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-               val cocktailsListOnFirstLetterUseCase =  loadCocktailListUseCase.doWork(Params(text))
+               val cocktailsListOnFirstLetterUseCase =  loadCocktailListUseCase.doWork(
+                   LoadCocktailListUseCase.Params(text)
+               )
                 _cocktailListFirstLetter.postValue(cocktailsListOnFirstLetterUseCase)
             } catch (e:Exception){
                 _errorBus.postValue(e.message)

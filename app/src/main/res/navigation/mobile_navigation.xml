@@ -61,6 +61,9 @@
         <action
             android:id="@+id/action_cocktailByNameFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_cocktailByNameFragment_to_cocktailRecipeFragment"
+            app:destination="@id/cocktailRecipeFragment" />
     </fragment>
     <fragment
         android:id="@+id/cocktailRecipeFragment"
