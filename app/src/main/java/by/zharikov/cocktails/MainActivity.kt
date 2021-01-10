@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(),ClickEventHandler{
         when (position) {
             0 -> findNavController(R.id.nav_host_fragment).navigate(R.id.action_homeFragment_to_navigation_fragment_by_first_letter)
             1 -> findNavController(R.id.nav_host_fragment).navigate(R.id.action_homeFragment_to_cocktailByNameFragment)
-            2 -> findNavController(R.id.nav_host_fragment).navigate(R.id.action_homeFragment_to_cocktailByIngredientFragment)
+            2 -> findNavController(R.id.nav_host_fragment).navigate(R.id.action_homeFragment_to_cocktailRandomFragment)
         }
     }
 }

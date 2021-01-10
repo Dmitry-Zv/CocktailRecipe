@@ -1,10 +1,6 @@
 package by.zharikov.shared.di.modules
 
-import by.zharikov.shared.data.entity.cocktail.Cocktail
-import by.zharikov.shared.network.cocktailapi.CocktailAPI
-import by.zharikov.shared.network.cocktailapi.CocktailByNameDrinkAPI
-import by.zharikov.shared.network.cocktailapi.RetrofitFactory
-import by.zharikov.shared.network.cocktailapi.RetrofitFactoryCocktailByNameDrink
+import by.zharikov.shared.network.cocktailapi.*
 import dagger.Module
 import dagger.Provides
 
@@ -17,5 +13,9 @@ class SharedModule {
     @Provides
     fun providesCocktailByDrinkNameApi():CocktailByNameDrinkAPI{
         return RetrofitFactoryCocktailByNameDrink().getAPI()
+    }
+    @Provides
+    fun providesCocktailRandomAPI():CocktailRandomAPI{
+        return RetrofitFactoryCocktailRandom().getApi()
     }
 }

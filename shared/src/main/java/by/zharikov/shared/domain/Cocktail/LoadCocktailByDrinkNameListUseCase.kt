@@ -15,7 +15,7 @@ class LoadCocktailByDrinkNameListUseCase {
   }
 
     suspend fun doWork(params: Params):List<Cocktail>?{
-       return cocktailRepository.getCocktails(params.drinkName)
+       return cocktailRepository.getCocktailsByDrinkName(params.drinkName)
     }
 
     data class Params(val drinkName:String)

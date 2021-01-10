@@ -11,7 +11,7 @@ object MainWindow {
         return listOf(
             HomeList("List all cocktails by first letter"),
             HomeList("Search cocktail by name"),
-            HomeList("Search by ingredient")
+            HomeList("Random Cocktail")
         )
     }
 }

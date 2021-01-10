@@ -18,6 +18,7 @@ import by.zharikov.cocktails.databinding.FragmentByNameCocktailBinding
 import by.zharikov.cocktails.ui.cocktailbyfirstletter.ClickOnCardViewRecipe
 import by.zharikov.cocktails.ui.cocktailbyfirstletter.CocktailAdapter
 import by.zharikov.cocktails.ui.cocktailbyfirstletter.SharedViewModelByFirstLetter
+import by.zharikov.cocktails.ui.utils.showAlert
 import by.zharikov.shared.data.entity.cocktail.Cocktail
 
 class CocktailByNameFragment : Fragment(), ClickOnCardViewRecipe {
@@ -56,6 +57,12 @@ class CocktailByNameFragment : Fragment(), ClickOnCardViewRecipe {
                     binding.cocktailByNameRecycler.layoutManager = LinearLayoutManager(context)
                     binding.cocktailByNameRecycler.adapter =
                         CocktailAdapter(it, this@CocktailByNameFragment)
+                })
+                cocktailByNameViewModel.errorBus.observe(viewLifecycleOwner, Observer {
+                    showAlert(
+                        title = R.string.error,
+                        message = it
+                    )
                 })
             }
 
