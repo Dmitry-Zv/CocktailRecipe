@@ -30,5 +30,15 @@ class CocktailRepository @Inject constructor(
             throw Throwable(response.message())
         }
     }
+    suspend fun getCocktailRandom(): List<Cocktail>? {
+        val response = cocktailDataSource.getCocktailRandomAPI()
+        if (response.isSuccessful){
+            return response.body()?.drinks?.map {
+                cocktailMapper.map(it)
+            }
+        } else{
+            throw Throwable(response.message())
+        }
+    }
 
 }

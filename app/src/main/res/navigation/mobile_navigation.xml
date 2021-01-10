@@ -35,23 +35,14 @@
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_cocktailByIngredientFragment"
-            app:destination="@id/cocktailByIngredientFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_navigation_fragment_by_first_letter"
             app:destination="@id/navigation_fragment_by_first_letter" />
         <action
             android:id="@+id/action_homeFragment_to_cocktailByNameFragment"
             app:destination="@id/cocktailByNameFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/cocktailByIngredientFragment"
-        android:name="by.zharikov.cocktails.ui.cocktailbyingredient.CocktailByIngredientFragment"
-        android:label="CocktailByIngredientFragment"
-        tools:layout="@layout/fragment_by_ingredient">
         <action
-            android:id="@+id/action_cocktailByIngredientFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_homeFragment_to_cocktailRandomFragment"
+            app:destination="@id/cocktailRandomFragment" />
     </fragment>
     <fragment
         android:id="@+id/cocktailByNameFragment"
@@ -70,4 +61,13 @@
         android:name="by.zharikov.cocktails.ui.cocktailbyfirstletter.CocktailRecipeFragment"
         android:label="CocktailRecipeFragment"
         tools:layout="@layout/fragment_recipe"/>
+    <fragment
+        android:id="@+id/cocktailRandomFragment"
+        android:name="by.zharikov.cocktails.ui.cocktailrandom.CocktailRandomFragment"
+        android:label="CocktailRandomFragment"
+        tools:layout="@layout/fragment_recipe">
+        <action
+            android:id="@+id/action_cocktailRandomFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>
