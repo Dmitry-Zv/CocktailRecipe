@@ -9,13 +9,24 @@ class CocktailRepository @Inject constructor(
     private val cocktailMapper: CocktailMapper
 ) {
 
-    suspend fun getCocktails(firstLetter: String):List<Cocktail>? {
+    suspend fun getCocktails(firstLetter: String): List<Cocktail>? {
         val response = cocktailDataSource.getApi(firstLetter)
-        if (response.isSuccessful){
+        if (response.isSuccessful) {
             return response.body()?.drinks?.map {
                 cocktailMapper.map(it)
             }
-        } else{
+        } else {
+            throw Throwable(response.message())
+        }
+    }
+
+    suspend fun getCocktailsByDrinkName(drinkName: String): List<Cocktail>? {
+        val response = cocktailDataSource.getCocktailByDrinkNameAPI(drinkName)
+        if (response.isSuccessful) {
+            return response.body()?.drinks?.map {
+                cocktailMapper.map(it)
+            }
+        } else {
             throw Throwable(response.message())
         }
     }

@@ -20,6 +20,5 @@ class LoadCocktailListUseCase {
     }
 
 
+    data class Params(val firstLetter: String)
 }
-
-data class Params(val firstLetter: String)

@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import by.zharikov.cocktails.databinding.FragmentRecipeBinding
-import by.zharikov.shared.data.entity.cocktail.Cocktail
 import com.squareup.picasso.Picasso
 
 class CocktailRecipeFragment : Fragment() {
