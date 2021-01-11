@@ -10,9 +10,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class CocktailByNameViewModel(private val drinkName: String) : ViewModel() {
+class CocktailByNameViewModel() : ViewModel() {
 
-    init {
+    fun fetch(drinkName: String) {
+        if (drinkName.isNotEmpty()){
+            _isDrinkNameIsEmpty.postValue(false)
         val loadCocktailByDrinkNameListUseCase = LoadCocktailByDrinkNameListUseCase()
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -25,6 +27,9 @@ class CocktailByNameViewModel(private val drinkName: String) : ViewModel() {
             }
 
         }
+        }else{
+            _isDrinkNameIsEmpty.value = true
+        }
     }
 
     private val _cocktailByDrinkName = MutableLiveData<List<Cocktail>>()
@@ -34,5 +39,9 @@ class CocktailByNameViewModel(private val drinkName: String) : ViewModel() {
     private val _errorBus = MutableLiveData<String>()
     val errorBus: LiveData<String>
         get() = _errorBus
+
+    private val _isDrinkNameIsEmpty = MutableLiveData<Boolean>()
+    val isDrinkNameIsEmpty:LiveData<Boolean>
+    get() = _isDrinkNameIsEmpty
 
 }

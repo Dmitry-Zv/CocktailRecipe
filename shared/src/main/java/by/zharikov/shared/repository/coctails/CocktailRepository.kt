@@ -12,10 +12,10 @@ class CocktailRepository @Inject constructor(
     suspend fun getCocktails(firstLetter: String): List<Cocktail>? {
         val response = cocktailDataSource.getApi(firstLetter)
         if (response.isSuccessful) {
-            return response.body()?.drinks?.map {
+        return    response.body()?.drinks?.map {
                 cocktailMapper.map(it)
             }
-        } else {
+        } else{
             throw Throwable(response.message())
         }
     }

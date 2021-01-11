@@ -16,8 +16,6 @@ import by.zharikov.cocktails.R
 import by.zharikov.cocktails.databinding.FragmentByFirstLetterBinding
 import by.zharikov.cocktails.ui.utils.showAlert
 import by.zharikov.shared.data.entity.cocktail.Cocktail
-import com.squareup.picasso.Picasso
-import java.lang.NullPointerException
 
 class CocktailByFirstLetterFragment : Fragment(), ClickOnCardViewRecipe {
 
@@ -25,8 +23,10 @@ class CocktailByFirstLetterFragment : Fragment(), ClickOnCardViewRecipe {
     private val binding: FragmentByFirstLetterBinding
         get() = _binding!!
     private lateinit var cocktailByFirstLetterViewModel: CocktailByFirstLetterViewModel
-    private lateinit var cocktailByFirstLetterFactory: CocktailByFirstLetterFactory
     private lateinit var text: String
+
+    private lateinit var cocktailAdapter: CocktailAdapter
+
     private val model: SharedViewModelByFirstLetter by activityViewModels()
 
     override fun onCreateView(
@@ -40,31 +40,39 @@ class CocktailByFirstLetterFragment : Fragment(), ClickOnCardViewRecipe {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        try {
 
-            binding.materialEditText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
+        binding.materialEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
 
-                }
+            }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    text = binding.materialEditText.text.toString()
-                    cocktailByFirstLetterFactory = CocktailByFirstLetterFactory(text)
-                    cocktailByFirstLetterViewModel = ViewModelProvider(
-                        this@CocktailByFirstLetterFragment,
-                        cocktailByFirstLetterFactory
-                    ).get(CocktailByFirstLetterViewModel::class.java)
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                text = s.toString()
+                cocktailByFirstLetterViewModel = ViewModelProvider(
+                    this@CocktailByFirstLetterFragment
+                ).get(CocktailByFirstLetterViewModel::class.java)
+                    cocktailByFirstLetterViewModel.fetch(text)
                     cocktailByFirstLetterViewModel.cocktailListFirstLetter.observe(
                         viewLifecycleOwner,
                         Observer {
-                            binding.cocktailRecycler.layoutManager = LinearLayoutManager(context)
-                            binding.cocktailRecycler.adapter =
-                                CocktailAdapter(it, this@CocktailByFirstLetterFragment)
+                            it?.let {
+                                binding.cocktailRecycler.layoutManager =
+                                    LinearLayoutManager(context)
+                                cocktailAdapter =
+                                    CocktailAdapter(it, this@CocktailByFirstLetterFragment)
+                                binding.cocktailRecycler.adapter = cocktailAdapter
+
+                            } ?: run {
+                                showAlert(
+                                    title = R.string.error,
+                                    message = "Cocktails has not been found!"
+                                )
+                            }
                         })
 
                     cocktailByFirstLetterViewModel.errorBus.observe(viewLifecycleOwner, Observer {
@@ -73,20 +81,19 @@ class CocktailByFirstLetterFragment : Fragment(), ClickOnCardViewRecipe {
                             message = it
                         )
                     })
+                    cocktailByFirstLetterViewModel.isTextSearchIsEmpty.observe(
+                        viewLifecycleOwner,
+                        Observer {
+                            if (it) {
+                                cocktailAdapter.clear()
+                            }
+                        })
+            }
 
-                }
+            override fun afterTextChanged(s: Editable?) {
+            }
 
-                override fun afterTextChanged(s: Editable?) {
-
-                }
-
-            })
-        } catch (e: NullPointerException) {
-            showAlert(
-                title = R.string.error,
-                message = e.message.toString()
-            )
-        }
+        })
 
     }
 
