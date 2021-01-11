@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.zharikov.cocktails.R
@@ -27,8 +26,8 @@ class CocktailByNameFragment : Fragment(), ClickOnCardViewRecipe {
     private val binding: FragmentByNameCocktailBinding
         get() = _binding!!
     private lateinit var cocktailByNameViewModel: CocktailByNameViewModel
-    private lateinit var cocktailByNameFactory: CocktailByNameFactory
     private lateinit var drinkName: String
+    private lateinit var cocktailAdapter: CocktailAdapter
     private val model: SharedViewModelByFirstLetter by activityViewModels()
 
     override fun onCreateView(
@@ -48,15 +47,16 @@ class CocktailByNameFragment : Fragment(), ClickOnCardViewRecipe {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                drinkName = binding.materialEditTextCocktailByName.text.toString()
-                cocktailByNameFactory = CocktailByNameFactory(drinkName)
+                drinkName = s.toString()
                 cocktailByNameViewModel =
-                    ViewModelProvider(this@CocktailByNameFragment, cocktailByNameFactory)
+                    ViewModelProvider(this@CocktailByNameFragment)
                         .get(CocktailByNameViewModel::class.java)
+                cocktailByNameViewModel.fetch(drinkName)
                 cocktailByNameViewModel.cocktailByDrinkName.observe(viewLifecycleOwner, Observer {
                     binding.cocktailByNameRecycler.layoutManager = LinearLayoutManager(context)
-                    binding.cocktailByNameRecycler.adapter =
-                        CocktailAdapter(it, this@CocktailByNameFragment)
+                    cocktailAdapter = CocktailAdapter(it, this@CocktailByNameFragment)
+                    binding.cocktailByNameRecycler.adapter = cocktailAdapter
+
                 })
                 cocktailByNameViewModel.errorBus.observe(viewLifecycleOwner, Observer {
                     showAlert(
@@ -64,6 +64,12 @@ class CocktailByNameFragment : Fragment(), ClickOnCardViewRecipe {
                         message = it
                     )
                 })
+                cocktailByNameViewModel.isDrinkNameIsEmpty.observe(viewLifecycleOwner, Observer {
+                    if (it) {
+                        cocktailAdapter.clear()
+                    }
+                })
+
             }
 
             override fun afterTextChanged(s: Editable?) {

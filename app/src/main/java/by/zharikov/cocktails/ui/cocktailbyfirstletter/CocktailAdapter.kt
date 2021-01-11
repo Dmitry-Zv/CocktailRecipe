@@ -7,25 +7,29 @@ import androidx.recyclerview.widget.RecyclerView
 import by.zharikov.cocktails.databinding.ItemBinding
 import by.zharikov.shared.data.entity.cocktail.Cocktail
 import com.squareup.picasso.Picasso
+import java.util.ArrayList
 
-class CocktailAdapter(private val cocktailList: List<Cocktail>, val clickOnCardViewRecipe: ClickOnCardViewRecipe) :
+class CocktailAdapter(
+    private var cocktailList: List<Cocktail>,
+    val clickOnCardViewRecipe: ClickOnCardViewRecipe
+) :
     RecyclerView.Adapter<CocktailAdapter.CocktailViewHolder>() {
     inner class CocktailViewHolder(private val binding: ItemBinding) :
-        RecyclerView.ViewHolder(binding.root){
-            fun bind(cocktail:Cocktail){
-                with(binding){
-                    drinkName.text = cocktail.drinkName
-                    Picasso.get().load(cocktail.imageUrl).into(imageDrink)
-                    binding.root.setOnClickListener {
-                        clickOnCardViewRecipe.viewNextFragment(cocktail)
-                    }
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(cocktail: Cocktail) {
+            with(binding) {
+                drinkName.text = cocktail.drinkName
+                Picasso.get().load(cocktail.imageUrl).into(imageDrink)
+                binding.root.setOnClickListener {
+                    clickOnCardViewRecipe.viewNextFragment(cocktail)
                 }
             }
         }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CocktailViewHolder {
         val binding = ItemBinding
-            .inflate(LayoutInflater.from(parent.context),parent, false)
+            .inflate(LayoutInflater.from(parent.context), parent, false)
         return CocktailViewHolder(binding)
     }
 
@@ -36,7 +40,13 @@ class CocktailAdapter(private val cocktailList: List<Cocktail>, val clickOnCardV
     override fun getItemCount(): Int {
         return cocktailList.size
     }
+
+    fun clear() {
+        cocktailList = emptyList()
+        notifyDataSetChanged()
+    }
 }
-interface ClickOnCardViewRecipe{
-    fun viewNextFragment(cocktail:Cocktail)
+
+interface ClickOnCardViewRecipe {
+    fun viewNextFragment(cocktail: Cocktail)
 }
