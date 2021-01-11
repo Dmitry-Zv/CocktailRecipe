@@ -19,16 +19,15 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="by.zharikov.cocktails.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_saved_data"
+        android:name="by.zharikov.cocktails.ui.saved.SaveDataFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_save_data" >
+        <action
+            android:id="@+id/action_navigation_saved_data_to_cocktailRecipeFragment"
+            app:destination="@id/cocktailRecipeFragment" />
+    </fragment>
 
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="by.zharikov.cocktails.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/homeFragment"
         android:name="by.zharikov.cocktails.ui.home.HomeFragment"
@@ -60,7 +59,11 @@
         android:id="@+id/cocktailRecipeFragment"
         android:name="by.zharikov.cocktails.ui.cocktailbyfirstletter.CocktailRecipeFragment"
         android:label="CocktailRecipeFragment"
-        tools:layout="@layout/fragment_recipe"/>
+        tools:layout="@layout/fragment_recipe">
+        <action
+            android:id="@+id/action_cocktailRecipeFragment_to_navigation_saved_data"
+            app:destination="@id/navigation_saved_data" />
+    </fragment>
     <fragment
         android:id="@+id/cocktailRandomFragment"
         android:name="by.zharikov.cocktails.ui.cocktailrandom.CocktailRandomFragment"

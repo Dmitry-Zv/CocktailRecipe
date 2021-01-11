@@ -10,4 +10,8 @@
     <string name="error">ERROR</string>
     <string name="save">SAVE</string>
     <string name="enter_the_name_of_the_drink">Enter the name of the drink!</string>
+    <string name="delete">DELETE</string>
+    <string name="saved_data">Saved Data</string>
+    <string name="instruction">Instruction:</string>
+    <string name="ingredients">Ingredients:</string>
 </resources>

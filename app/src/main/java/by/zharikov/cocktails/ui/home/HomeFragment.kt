@@ -29,12 +29,4 @@ class HomeFragment : Fragment() {
         binding.recyclerHome.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerHome.adapter = HomeAdapter(MainWindow.get(), requireContext())
     }
-//
-//    override fun viewNextFragment(holder: View, position: Int) {
-//        when (position) {
-//            0 -> findNavController().navigate(R.id.action_homeFragment_to_navigation_fragment_by_first_letter)
-//            1 -> findNavController().navigate(R.id.action_homeFragment_to_cocktailByNameFragment)
-//            2 -> findNavController().navigate(R.id.action_homeFragment_to_cocktailByIngredientFragment)
-//        }
-//    }
 }
