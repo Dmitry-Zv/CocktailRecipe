@@ -18,16 +18,15 @@ class SaveDataViewModel(app: Application) : AndroidViewModel(app) {
     init {
         val loadCocktailFromDataBaseListUseCase = LoadCocktailFromDataBaseListUseCase()
         CoroutineScope(Dispatchers.IO).launch {
-            _savedCocktail.postValue(
-                loadCocktailFromDataBaseListUseCase.doWork(
-                    LoadCocktailFromDataBaseListUseCase.Params(dao)
-                )
+            val save =  loadCocktailFromDataBaseListUseCase.doWork(
+                LoadCocktailFromDataBaseListUseCase.Params(dao)
             )
+            _savedCocktail.postValue(save)
         }
 
     }
 
-    private val _savedCocktail = MutableLiveData<List<Cocktail>>()
-    val savedCocktail: LiveData<List<Cocktail>>
+    private val _savedCocktail = MutableLiveData<List<Cocktail>?>()
+    val savedCocktail: LiveData<List<Cocktail>?>
         get() = _savedCocktail
 }

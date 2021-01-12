@@ -40,12 +40,14 @@ class SaveDataFragment : Fragment(), ClickOnCardViewRecipe {
         super.onViewCreated(view, savedInstanceState)
         saveDataViewModel = ViewModelProvider(this).get(SaveDataViewModel::class.java)
         saveDataViewModel.savedCocktail.observe(viewLifecycleOwner, Observer {
-            if (it.isEmpty()) {
-                binding.textSave.text = getString(R.string.there_are_no_saved_cocktails)
-            } else {
-                binding.textSave.text = ""
-                binding.recyclerSaveData.layoutManager = LinearLayoutManager(context)
-                binding.recyclerSaveData.adapter = CocktailAdapter(it, this)
+            if (it != null) {
+                if (it.isEmpty()) {
+                    binding.textSave.text = getString(R.string.there_are_no_saved_cocktails)
+                } else {
+                    binding.textSave.text = ""
+                    binding.recyclerSaveData.layoutManager = LinearLayoutManager(context)
+                    binding.recyclerSaveData.adapter = CocktailAdapter(it, this)
+                }
             }
         })
     }
