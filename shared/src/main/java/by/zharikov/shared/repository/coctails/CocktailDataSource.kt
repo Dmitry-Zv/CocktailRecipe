@@ -35,12 +35,12 @@ class CocktailDataSource @Inject constructor(
     suspend fun getCocktailList(dao: CocktailDao) =
         dao.getListCocktailDBEntity()
 
-    suspend fun deleteCocktail(dao: CocktailDao, cocktailDBEntity: CocktailDBEntity) {
-        dao.delete(cocktailDBEntity)
+    suspend fun deleteCocktail(dao: CocktailDao, cocktail: Cocktail) {
+        dao.delete(cocktail.drinkName)
     }
 
-    suspend fun check(dao: CocktailDao, cocktail: Cocktail):CocktailDBEntity?{
-       return dao.check(cocktail.drinkName)
+    suspend fun check(dao: CocktailDao, cocktail: Cocktail): CocktailDBEntity? {
+        return dao.check(cocktail.drinkName)
     }
 
 }

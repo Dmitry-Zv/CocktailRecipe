@@ -15,8 +15,8 @@ interface CocktailDao {
     @Query("SELECT * FROM CocktailDBEntity ORDER BY drinkName")
     suspend fun getListCocktailDBEntity(): List<CocktailDBEntity>
 
-    @Delete
-    suspend fun delete(cocktailDBEntity: CocktailDBEntity)
+    @Query("DELETE FROM CocktailDBEntity WHERE drinkName = :drinkName")
+    suspend fun delete(drinkName: String)
 
     @Query("SELECT * FROM CocktailDBEntity WHERE drinkName = :drinkName")
     suspend fun check(drinkName: String):CocktailDBEntity?

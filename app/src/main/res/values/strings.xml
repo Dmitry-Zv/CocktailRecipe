@@ -14,4 +14,7 @@
     <string name="saved_data">Saved Data</string>
     <string name="instruction">Instruction:</string>
     <string name="ingredients">Ingredients:</string>
+    <string name="there_are_no_saved_cocktails">\"There are no saved cocktails! \"</string>
+    <string name="deleted">DELETED</string>
+    <string name="saved">SAVED</string>
 </resources>

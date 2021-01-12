@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity(), ClickEventHandler {
                 R.id.homeFragment, R.id.navigation_saved_data
             )
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
 

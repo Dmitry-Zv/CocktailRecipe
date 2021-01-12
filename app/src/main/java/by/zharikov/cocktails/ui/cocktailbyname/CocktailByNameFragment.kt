@@ -16,7 +16,7 @@ import by.zharikov.cocktails.R
 import by.zharikov.cocktails.databinding.FragmentByNameCocktailBinding
 import by.zharikov.cocktails.ui.cocktailbyfirstletter.ClickOnCardViewRecipe
 import by.zharikov.cocktails.ui.cocktailbyfirstletter.CocktailAdapter
-import by.zharikov.cocktails.ui.cocktailbyfirstletter.SharedViewModelByFirstLetter
+import by.zharikov.cocktails.ui.sharedviewmodel.SharedViewModel
 import by.zharikov.cocktails.ui.utils.showAlert
 import by.zharikov.shared.data.entity.cocktail.Cocktail
 
@@ -28,7 +28,7 @@ class CocktailByNameFragment : Fragment(), ClickOnCardViewRecipe {
     private lateinit var cocktailByNameViewModel: CocktailByNameViewModel
     private lateinit var drinkName: String
     private lateinit var cocktailAdapter: CocktailAdapter
-    private val model: SharedViewModelByFirstLetter by activityViewModels()
+    private val model: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,10 +53,18 @@ class CocktailByNameFragment : Fragment(), ClickOnCardViewRecipe {
                         .get(CocktailByNameViewModel::class.java)
                 cocktailByNameViewModel.fetch(drinkName)
                 cocktailByNameViewModel.cocktailByDrinkName.observe(viewLifecycleOwner, Observer {
-                    binding.cocktailByNameRecycler.layoutManager = LinearLayoutManager(context)
-                    cocktailAdapter = CocktailAdapter(it, this@CocktailByNameFragment)
-                    binding.cocktailByNameRecycler.adapter = cocktailAdapter
-
+                    it?.let {
+                        binding.cocktailByNameRecycler.layoutManager = LinearLayoutManager(context)
+                        cocktailAdapter = CocktailAdapter(it, this@CocktailByNameFragment)
+                        binding.cocktailByNameRecycler.adapter = cocktailAdapter
+                    }.run {
+                        cocktailByNameViewModel.isDrinkNameIsEmpty.observe(viewLifecycleOwner,
+                            Observer {
+                                if (it) {
+                                    cocktailAdapter.clear()
+                                }
+                            })
+                    }
                 })
                 cocktailByNameViewModel.errorBus.observe(viewLifecycleOwner, Observer {
                     showAlert(

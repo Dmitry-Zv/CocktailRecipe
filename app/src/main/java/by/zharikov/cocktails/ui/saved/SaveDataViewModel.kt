@@ -11,18 +11,23 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SaveDataViewModel(app:Application) : AndroidViewModel(app) {
+class SaveDataViewModel(app: Application) : AndroidViewModel(app) {
 
-private val dao = DataBaseProvider.provide(app.applicationContext).getDao()
+    private val dao = DataBaseProvider.provide(app.applicationContext).getDao()
+
     init {
         val loadCocktailFromDataBaseListUseCase = LoadCocktailFromDataBaseListUseCase()
-        CoroutineScope(Dispatchers.IO).launch{
-            _savedCocktail.postValue(loadCocktailFromDataBaseListUseCase.doWork(LoadCocktailFromDataBaseListUseCase.Params(dao)))
+        CoroutineScope(Dispatchers.IO).launch {
+            _savedCocktail.postValue(
+                loadCocktailFromDataBaseListUseCase.doWork(
+                    LoadCocktailFromDataBaseListUseCase.Params(dao)
+                )
+            )
         }
 
     }
 
     private val _savedCocktail = MutableLiveData<List<Cocktail>>()
-    val savedCocktail : LiveData<List<Cocktail>>
-    get() = _savedCocktail
+    val savedCocktail: LiveData<List<Cocktail>>
+        get() = _savedCocktail
 }
