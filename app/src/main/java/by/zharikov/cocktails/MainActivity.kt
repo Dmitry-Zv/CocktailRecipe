@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity(), ClickEventHandler {
             )
         )
         navView.setupWithNavController(navController)
+
     }
 
     override fun viewNextFragment(holder: View, position: Int) {
