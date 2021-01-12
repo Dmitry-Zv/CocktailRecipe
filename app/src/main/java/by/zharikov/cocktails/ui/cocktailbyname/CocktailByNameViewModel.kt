@@ -13,22 +13,22 @@ import java.lang.Exception
 class CocktailByNameViewModel() : ViewModel() {
 
     fun fetch(drinkName: String) {
-        if (drinkName.isNotEmpty()){
+        if (drinkName.isNotEmpty()) {
             _isDrinkNameIsEmpty.postValue(false)
-        val loadCocktailByDrinkNameListUseCase = LoadCocktailByDrinkNameListUseCase()
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val cocktailListByDrinkNameUseCase = loadCocktailByDrinkNameListUseCase.doWork(
-                    LoadCocktailByDrinkNameListUseCase.Params(drinkName)
-                )
-                _cocktailByDrinkName.postValue(cocktailListByDrinkNameUseCase)
-            } catch (e: Exception) {
-                _errorBus.postValue(e.message)
-            }
+            val loadCocktailByDrinkNameListUseCase = LoadCocktailByDrinkNameListUseCase()
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val cocktailListByDrinkNameUseCase = loadCocktailByDrinkNameListUseCase.doWork(
+                        LoadCocktailByDrinkNameListUseCase.Params(drinkName)
+                    )
+                    _cocktailByDrinkName.postValue(cocktailListByDrinkNameUseCase)
+                } catch (e: Exception) {
+                    _errorBus.postValue(e.message)
+                }
 
-        }
-        }else{
-            _isDrinkNameIsEmpty.value = true
+            }
+        } else {
+            _isDrinkNameIsEmpty.postValue(true)
         }
     }
 
@@ -41,7 +41,7 @@ class CocktailByNameViewModel() : ViewModel() {
         get() = _errorBus
 
     private val _isDrinkNameIsEmpty = MutableLiveData<Boolean>()
-    val isDrinkNameIsEmpty:LiveData<Boolean>
-    get() = _isDrinkNameIsEmpty
+    val isDrinkNameIsEmpty: LiveData<Boolean>
+        get() = _isDrinkNameIsEmpty
 
 }

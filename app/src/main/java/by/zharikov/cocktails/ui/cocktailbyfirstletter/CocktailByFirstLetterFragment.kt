@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.zharikov.cocktails.R
 import by.zharikov.cocktails.databinding.FragmentByFirstLetterBinding
+import by.zharikov.cocktails.ui.sharedviewmodel.SharedViewModel
 import by.zharikov.cocktails.ui.utils.showAlert
 import by.zharikov.shared.data.entity.cocktail.Cocktail
 
@@ -27,7 +28,7 @@ class CocktailByFirstLetterFragment : Fragment(), ClickOnCardViewRecipe {
 
     private lateinit var cocktailAdapter: CocktailAdapter
 
-    private val model: SharedViewModelByFirstLetter by activityViewModels()
+    private val model: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,38 +57,38 @@ class CocktailByFirstLetterFragment : Fragment(), ClickOnCardViewRecipe {
                 cocktailByFirstLetterViewModel = ViewModelProvider(
                     this@CocktailByFirstLetterFragment
                 ).get(CocktailByFirstLetterViewModel::class.java)
-                    cocktailByFirstLetterViewModel.fetch(text)
-                    cocktailByFirstLetterViewModel.cocktailListFirstLetter.observe(
-                        viewLifecycleOwner,
-                        Observer {
-                            it?.let {
-                                binding.cocktailRecycler.layoutManager =
-                                    LinearLayoutManager(context)
-                                cocktailAdapter =
-                                    CocktailAdapter(it, this@CocktailByFirstLetterFragment)
-                                binding.cocktailRecycler.adapter = cocktailAdapter
+                cocktailByFirstLetterViewModel.fetch(text)
+                cocktailByFirstLetterViewModel.cocktailListFirstLetter.observe(
+                    viewLifecycleOwner,
+                    Observer {
+                        it?.let {
+                            binding.cocktailRecycler.layoutManager =
+                                LinearLayoutManager(context)
+                            cocktailAdapter =
+                                CocktailAdapter(it, this@CocktailByFirstLetterFragment)
+                            binding.cocktailRecycler.adapter = cocktailAdapter
 
-                            } ?: run {
-                                showAlert(
-                                    title = R.string.error,
-                                    message = "Cocktails has not been found!"
-                                )
-                            }
-                        })
-
-                    cocktailByFirstLetterViewModel.errorBus.observe(viewLifecycleOwner, Observer {
-                        showAlert(
-                            title = R.string.error,
-                            message = it
-                        )
+                        } ?: run {
+                            showAlert(
+                                title = R.string.error,
+                                message = "Cocktails has not been found!"
+                            )
+                        }
                     })
-                    cocktailByFirstLetterViewModel.isTextSearchIsEmpty.observe(
-                        viewLifecycleOwner,
-                        Observer {
-                            if (it) {
-                                cocktailAdapter.clear()
-                            }
-                        })
+
+                cocktailByFirstLetterViewModel.errorBus.observe(viewLifecycleOwner, Observer {
+                    showAlert(
+                        title = R.string.error,
+                        message = it
+                    )
+                })
+                cocktailByFirstLetterViewModel.isTextSearchIsEmpty.observe(
+                    viewLifecycleOwner,
+                    Observer {
+                        if (it) {
+                            cocktailAdapter.clear()
+                        }
+                    })
             }
 
             override fun afterTextChanged(s: Editable?) {

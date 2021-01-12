@@ -62,13 +62,10 @@ class CocktailRepository @Inject constructor(
     }
 
     suspend fun delete(dao: CocktailDao, cocktail: Cocktail) {
-        val cocktailDB = cocktail.let {
-            cocktailToCocktailDBMapper.map(it)
-        }
-        cocktailDataSource.deleteCocktail(dao, cocktailDB)
+        cocktailDataSource.deleteCocktail(dao, cocktail)
     }
 
-    suspend fun check(dao: CocktailDao, cocktail: Cocktail):CocktailDBEntity?{
+    suspend fun check(dao: CocktailDao, cocktail: Cocktail): CocktailDBEntity? {
         return cocktailDataSource.check(dao, cocktail)
     }
 

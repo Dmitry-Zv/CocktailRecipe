@@ -1,4 +1,4 @@
-package by.zharikov.cocktails.ui.cocktailbyfirstletter
+package by.zharikov.cocktails.ui.cocktail
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -24,32 +24,32 @@ class CocktailRecipeViewModel(app: Application) : AndroidViewModel(app) {
     val cocktailDBEntity: LiveData<Cocktail>
         get() = _cocktailDBEntity
 
-//    private val _isCocktailIsSaved = MutableLiveData<Boolean>()
-//    val isCocktailIsSaved: LiveData<Boolean>
-//        get() = _isCocktailIsSaved
+    private val _isCocktailIsSaved = MutableLiveData<Boolean>()
+    val isCocktailIsSaved: LiveData<Boolean>
+        get() = _isCocktailIsSaved
 
 
     fun getCocktail(cocktail: Cocktail) {
         _cocktailDBEntity.value = cocktail
     }
 
-//    fun isPresentCocktailInDB(cocktail: Cocktail) {
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val cocktailDBEntity: CocktailDBEntity? = checkCocktailWithCocktailIDBUseCase.doWork(
-//                CheckCocktailWithCocktailIDBUseCase.Params(
-//                    dao,
-//                    cocktail
-//                )
-//            )
-//            if (cocktailDBEntity != null) {
-//                _isCocktailIsSaved.postValue(false)
-//            } else {
-//                _isCocktailIsSaved.postValue(true)
-//            }
-//
-//
-//        }
-//    }
+    fun isPresentCocktailInDB(cocktail: Cocktail) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val cocktailDBEntity: CocktailDBEntity? = checkCocktailWithCocktailIDBUseCase.doWork(
+                CheckCocktailWithCocktailIDBUseCase.Params(
+                    dao,
+                    cocktail
+                )
+            )
+            if (cocktailDBEntity != null) {
+                _isCocktailIsSaved.postValue(true)
+            } else {
+                _isCocktailIsSaved.postValue(false)
+            }
+
+
+        }
+    }
 
     fun saveCocktailToDB(cocktail: Cocktail) {
         val saveCocktailToDataBaseUseCase = SaveCocktailToDataBaseUseCase()

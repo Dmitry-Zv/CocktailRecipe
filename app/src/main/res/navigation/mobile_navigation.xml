@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/cocktailRecipeFragment"
-        android:name="by.zharikov.cocktails.ui.cocktailbyfirstletter.CocktailRecipeFragment"
+        android:name="by.zharikov.cocktails.ui.cocktail.CocktailRecipeFragment"
         android:label="CocktailRecipeFragment"
         tools:layout="@layout/fragment_recipe">
         <action
