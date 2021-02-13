@@ -48,7 +48,9 @@ class CocktailRecipeFragment : Fragment() {
 
                 it.ingredientList.forEach {
                     if (it != null) {
-                        ingredient.add(it)
+                        if (it.isNotEmpty()) {
+                            ingredient.add(it)
+                        }
                     }
                 }
                 ingredientList.text = ingredient.stream().collect(Collectors.joining(",\n"))
@@ -70,6 +72,7 @@ class CocktailRecipeFragment : Fragment() {
                     })
                     binding.buttonDelete.visibility = View.GONE
                     binding.buttonSave.visibility = View.VISIBLE
+                    cocktailRecipeViewModel.cocktailSave(false)
                 }
 
             } else {
@@ -83,6 +86,7 @@ class CocktailRecipeFragment : Fragment() {
                     })
                     binding.buttonSave.visibility = View.GONE
                     binding.buttonDelete.visibility = View.VISIBLE
+                    cocktailRecipeViewModel.cocktailSave(true)
                 }
             }
         })
