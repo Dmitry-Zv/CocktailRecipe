@@ -99,4 +99,10 @@ class CocktailRandomViewModel(app: Application) : AndroidViewModel(app) {
     private val _isCocktailIsSaved = MutableLiveData<Boolean>()
     val isCocktailIsSaved: LiveData<Boolean>
         get() = _isCocktailIsSaved
+
+    fun cocktailSave(isSaved:Boolean){
+        _isCocktailIsSaved.value = isSaved
+    }
+
+
 }

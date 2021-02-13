@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import by.zharikov.cocktails.R
+import by.zharikov.cocktails.databinding.FragmentRandomRecipeBinding
 import by.zharikov.cocktails.databinding.FragmentRecipeBinding
 import by.zharikov.cocktails.ui.cocktail.CocktailRecipeViewModel
 import by.zharikov.cocktails.ui.utils.showAlert
@@ -19,24 +20,26 @@ import java.util.stream.Collectors
 
 class CocktailRandomFragment : Fragment() {
 
-    private var _binding: FragmentRecipeBinding? = null
-    private val binding: FragmentRecipeBinding
+    private var _binding: FragmentRandomRecipeBinding? = null
+    private val binding: FragmentRandomRecipeBinding
         get() = _binding!!
     private lateinit var cocktailRandomViewModel: CocktailRandomViewModel
     private val ingredient = mutableListOf<String>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentRecipeBinding.inflate(inflater, container, false)
+        _binding = FragmentRandomRecipeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.progressBar.visibility = View.VISIBLE
         cocktailRandomViewModel = ViewModelProvider(this).get(CocktailRandomViewModel::class.java)
         cocktailRandomViewModel.cocktailRandom.observe(viewLifecycleOwner, Observer {
             with(binding) {
@@ -45,7 +48,9 @@ class CocktailRandomFragment : Fragment() {
                 textAlcoholic.text = it[0].isAlcoholic
                 it[0].ingredientList.forEach {
                     if (it != null) {
-                        ingredient.add(it)
+                        if (it.isNotEmpty()) {
+                            ingredient.add(it)
+                        }
                     }
                 }
                 ingredientList.text = ingredient.stream().collect(Collectors.joining(",\n"))
@@ -53,8 +58,11 @@ class CocktailRandomFragment : Fragment() {
                 Picasso.get().load(it[0].imageUrl).into(imageRecipe)
                 cocktailRandomViewModel.isPresentCocktailInDB(it[0])
                 cocktailRandomViewModel.getCocktail(it[0])
+                binding.constraintLayout.visibility = View.VISIBLE
             }
         })
+        binding.progressBar.visibility = View.GONE
+
         cocktailRandomViewModel.errorBus.observe(viewLifecycleOwner, Observer {
             showAlert(
                 title = R.string.error,
@@ -73,7 +81,9 @@ class CocktailRandomFragment : Fragment() {
                     })
                     binding.buttonDelete.visibility = View.GONE
                     binding.buttonSave.visibility = View.VISIBLE
+                    cocktailRandomViewModel.cocktailSave(false)
                 }
+
 
             } else {
                 binding.buttonDelete.visibility = View.GONE
@@ -86,6 +96,7 @@ class CocktailRandomFragment : Fragment() {
                     })
                     binding.buttonSave.visibility = View.GONE
                     binding.buttonDelete.visibility = View.VISIBLE
+                    cocktailRandomViewModel.cocktailSave(true)
                 }
             }
         })

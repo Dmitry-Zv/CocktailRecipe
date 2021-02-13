@@ -28,6 +28,10 @@ class CocktailRecipeViewModel(app: Application) : AndroidViewModel(app) {
     val isCocktailIsSaved: LiveData<Boolean>
         get() = _isCocktailIsSaved
 
+    fun cocktailSave(isSaved:Boolean){
+        _isCocktailIsSaved.value = isSaved
+    }
+
 
     fun getCocktail(cocktail: Cocktail) {
         _cocktailDBEntity.value = cocktail

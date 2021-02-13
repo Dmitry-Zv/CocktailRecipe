@@ -9,8 +9,16 @@ import java.util.stream.Collectors
 class Converter {
     @RequiresApi(Build.VERSION_CODES.N)
     @TypeConverter
-    fun fromListToString(ingredientList: List<String>): String {
-        return ingredientList.stream().collect(Collectors.joining(","))
+    fun fromListToString(ingredientList: List<String?>): String {
+        val ingredient = mutableListOf<String>()
+        ingredientList.forEach {
+            if (it != null) {
+                if (it.isNotEmpty()) {
+                    ingredient.add(it)
+                }
+            }
+        }
+        return ingredient.stream().collect(Collectors.joining(","))
     }
 
     @TypeConverter
