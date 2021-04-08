@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "212245238053",
+    "project_id": "cocktail-shokerrr",
+    "storage_bucket": "cocktail-shokerrr.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:212245238053:android:387578a4b473f914060acc",
+        "android_client_info": {
+          "package_name": "by.zharikov.cocktails"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "212245238053-5c5v1lnj5mb8fvgk0v623rr9dgn4hfar.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_FJNcPEdeAInrQ-6u6TnDw0oCTVCNqZc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "212245238053-5c5v1lnj5mb8fvgk0v623rr9dgn4hfar.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
